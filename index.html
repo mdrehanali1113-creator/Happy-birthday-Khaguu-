@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Khaguuu! 💖</title>
+    <!-- Load Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the particle effect */
+        .particle {
+            position: absolute;
+            pointer-events: none;
+            user-select: none;
+            animation: fall linear infinite;
+            z-index: 10;
+            font-size: clamp(1rem, 4vw, 2rem);
+            /* Initial visibility hidden to prevent CLS */
+            opacity: 0;
+            transform: translateY(-100vh);
+        }
+
+        @keyframes fall {
+            0% {
+                opacity: 1;
+                transform: translateY(-50px);
+            }
+            100% {
+                opacity: 0.5;
+                transform: translateY(105vh);
+            }
+        }
+
+        /* Set 'Inter' as the default font */
+        body {
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+        }
+
+        /* Gradient Background */
+        .birthday-bg {
+            background: linear-gradient(135deg, #fce7f3 0%, #fbcfe8 50%, #f9a8d4 100%);
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'primary-pink': '#ec4899', /* Rose 500 */
+                        'secondary-gold': '#fbbf24', /* Amber 400 */
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="birthday-bg text-gray-800 flex items-center justify-center p-4">
+
+    <!-- Particle Container -->
+    <div id="particle-container" class="fixed top-0 left-0 w-full h-full overflow-hidden"></div>
+
+    <!-- Main Content Card -->
+    <div class="w-full max-w-md bg-white/90 backdrop-blur-sm shadow-2xl rounded-3xl p-8 md:p-10 text-center transform hover:scale-[1.01] transition-transform duration-500 ease-in-out border-4 border-primary-pink/50">
+
+        <!-- Header -->
+        <h1 class="text-4xl md:text-6xl font-extrabold text-primary-pink mb-4 leading-tight">
+            Happy Birthday! 🎉
+        </h1>
+        
+        <h2 class="text-3xl md:text-4xl font-semibold text-fuchsia-600 mb-6">
+            To my amazing Khaguuu 🥰
+        </h2>
+
+        <!-- Main Message -->
+        <p class="text-xl md:text-2xl text-gray-700 mb-8 italic">
+            "Wishing you a day filled with all the joy, love, and happiness you deserve. You light up my world, and every moment with you is a gift. May your year ahead be as beautiful and vibrant as your heart! Sending the biggest hugs and all my love!"
+        </p>
+
+        <!-- Signature/Celebration Emojis -->
+        <div class="text-5xl mb-8">
+            💖🎂🌟🎁🎈✨
+        </div>
+
+        <!-- Call to Action / Interactive Button -->
+        <button id="reveal-message" class="w-full py-3 px-6 bg-secondary-gold text-white font-bold text-lg rounded-full shadow-lg hover:bg-amber-500 transition-all duration-300 transform hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-amber-300" onclick="showSecretMessage()">
+            Tap to see a secret message!
+        </button>
+
+        <!-- Secret Message Area (Hidden by default) -->
+        <div id="secret-message" class="mt-6 p-4 bg-primary-pink/10 border border-primary-pink text-primary-pink font-medium rounded-xl hidden transition-all duration-500">
+            <p class="text-lg">
+                You're my everything, Khaguuu. I love you more than words can say! Forever and always. ❤️
+            </p>
+        </div>
+        
+    </div>
+
+    <!-- JavaScript for Particle Effect and Interaction -->
+    <script>
+        const particleContainer = document.getElementById('particle-container');
+        const particles = ['💖', '❤️', '✨', '🎂', '🌟']; // Emojis for the effect
+        const numParticles = 30;
+
+        /**
+         * Creates and animates a single particle element.
+         * @param {string} emoji The emoji character to use.
+         */
+        function createParticle(emoji) {
+            const particle = document.createElement('div');
+            particle.className = 'particle';
+            particle.textContent = emoji;
+            
+            // Randomize starting position (x)
+            const startX = Math.random() * 100;
+            particle.style.left = `${startX}vw`;
+
+            // Randomize fall duration
+            const duration = Math.random() * 8 + 6; // 6s to 14s
+            particle.style.animationDuration = `${duration}s`;
+
+            // Randomize initial delay
+            const delay = Math.random() * 10; // 0s to 10s delay
+            particle.style.animationDelay = `${delay}s`;
+
+            // Randomize size slightly
+            particle.style.fontSize = `${Math.random() * 0.8 + 1}rem`;
+
+            particleContainer.appendChild(particle);
+
+            // Remove the particle after it finishes its animation cycle to save memory
+            particle.addEventListener('animationiteration', () => {
+                particle.remove();
+            });
+            // Re-create the particle after it is removed
+            setTimeout(() => {
+                particle.remove();
+                createParticle(emoji);
+            }, (duration + delay) * 1000);
+        }
+
+        // Initialize the particle stream
+        for (let i = 0; i < numParticles; i++) {
+            const emoji = particles[Math.floor(Math.random() * particles.length)];
+            createParticle(emoji);
+        }
+
+        /**
+         * Reveals the secret message when the button is tapped/clicked.
+         */
+        function showSecretMessage() {
+            const messageDiv = document.getElementById('secret-message');
+            const button = document.getElementById('reveal-message');
+
+            messageDiv.classList.toggle('hidden');
+            
+            if (messageDiv.classList.contains('hidden')) {
+                button.textContent = 'Tap to see a secret message!';
+            } else {
+                button.textContent = 'Message Revealed! 😊';
+            }
+        }
+    </script>
+</body>
+</html>
